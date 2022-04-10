@@ -41,8 +41,8 @@ class KcAssert {
         }
 
         @JvmStatic
-        fun isNull(expression: Boolean, message: String) {
-            isNull(expression, message, DEFAULT_EXCEPTION_CLASS)
+        fun isNull(obj: Any?, message: String) {
+            isNull(obj, message, DEFAULT_EXCEPTION_CLASS)
         }
 
         @JvmStatic
@@ -53,8 +53,8 @@ class KcAssert {
         }
 
         @JvmStatic
-        fun notNull(expression: Boolean, message: String) {
-            isNull(expression, message, DEFAULT_EXCEPTION_CLASS)
+        fun notNull(obj: Any?, message: String) {
+            notNull(obj, message, DEFAULT_EXCEPTION_CLASS)
         }
 
         @JvmStatic
