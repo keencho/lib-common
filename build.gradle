@@ -11,5 +11,6 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation 'org.apache.poi:poi-ooxml:5.2.2'
 }
