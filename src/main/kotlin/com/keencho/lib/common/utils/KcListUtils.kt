@@ -11,7 +11,13 @@ class KcListUtils {
         }
 
         @JvmStatic
-        fun <T, V> findOneByValue(list: List<T>, key: V): T {
+        fun <T, V> findOneByValue(list: List<T>, key: V): T? {
+            val valueList = findByValue(list, key)
+
+            if (valueList.isEmpty()) {
+                return null
+            }
+
             return findByValue(list, key).first()
         }
 
