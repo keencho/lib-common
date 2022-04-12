@@ -5,7 +5,7 @@ import java.util.*
 import java.util.stream.Collectors
 import kotlin.reflect.KClass
 
-class KcReflectionUtils{
+class KcReflectionUtils {
     companion object {
 
         @JvmStatic
