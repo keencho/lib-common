@@ -2,6 +2,7 @@ package com.keencho.lib.common.utils
 
 class KcStringUtils {
     companion object {
+
         private fun containsTxt(charSequence: CharSequence): Boolean {
             for (char in charSequence) {
                 if (!Character.isWhitespace(char)) {

@@ -2,6 +2,7 @@ package com.keencho.lib.common.utils
 
 class KcAssert {
     companion object {
+
         private val DEFAULT_EXCEPTION = RuntimeException()
         private val DEFAULT_EXCEPTION_CLASS = DEFAULT_EXCEPTION::class.java
 

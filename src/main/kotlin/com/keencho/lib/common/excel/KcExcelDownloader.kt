@@ -4,29 +4,28 @@ import com.keencho.lib.common.excel.annotation.KcExcelColumn
 import com.keencho.lib.common.excel.annotation.KcExcelDocument
 import com.keencho.lib.common.utils.KcAssert
 import com.keencho.lib.common.utils.KcReflectionUtils
+import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.streaming.SXSSFWorkbook
 import java.util.stream.Collectors
 
 class KcExcelDownloader<T> (
-    private val data: LinkedHashMap<String, List<T>>,
-    private val showSequence: Boolean
+    private val data: LinkedHashMap<String, List<T>>
 ) {
-
-    constructor(data: LinkedHashMap<String, List<T>>): this(data, false)
 
     private val workbook: SXSSFWorkbook = SXSSFWorkbook()
 
     private fun validateData(data: Map<String, List<T>>) {
         data.forEach { (_, v) ->
             KcAssert.notNull(v, "value must not be null!")
+            KcAssert.isTrue(v.isNotEmpty(), "value must not be empty!")
 
-            val clazz = v.stream().findFirst().javaClass;
+            val clazz = v.stream().findFirst().get()!!::class.java
             KcAssert.notNull(clazz, "excel target class must not be null!")
             KcAssert.isTrue(clazz.isAnnotationPresent(KcExcelDocument::class.java), "KcExcelDocument annotation must not be null!")
         }
     }
 
-    fun write() {
+    fun write(): Workbook {
         this.validateData(data)
 
         var sheetNo = 0
@@ -41,16 +40,6 @@ class KcExcelDownloader<T> (
             var rowCount = 0
             var columnCount = 0
             var row = sheet.createRow(rowCount++)
-            var count = 1
-
-            ////////////////////////// '번호' 컬럼 세팅 //////////////////////////
-            // TODO: 이거 필요할까? 그냥 클래스에서 바로 꽂는게 더 깔끔하지 않을까?
-            if (this.showSequence) {
-                val cell = row.createCell(0)
-                cell.setCellValue("번호")
-                columnCount = 1
-            }
-            ////////////////////////// '번호' 컬럼 세팅 끝 //////////////////////////
 
             ////////////////////////// 헤더 세팅 //////////////////////////
             for (headerField in fieldList) {
@@ -63,12 +52,6 @@ class KcExcelDownloader<T> (
             for(genericData in value) {
                 row = sheet.createRow(rowCount ++)
                 columnCount = 0
-
-                if (showSequence) {
-                    val cell = row.createCell(0)
-                    cell.setCellValue(count++.toDouble())
-                    columnCount = 1
-                }
 
                 for(rowField in fieldList) {
                     val cell = row.createCell(columnCount)
@@ -85,6 +68,8 @@ class KcExcelDownloader<T> (
             }
             ////////////////////////// 필드 값 세팅 끝 //////////////////////////
         }
+
+        return workbook
 
     }
 

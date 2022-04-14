@@ -18,7 +18,18 @@ class KcListUtils {
                 return null
             }
 
-            return findByValue(list, key).first()
+            return valueList.first()
+        }
+
+        @JvmStatic
+        fun <T, V> findLastOneByValue(list: List<T>, key: V): T? {
+            val valueList = findByValue(list, key)
+
+            if (valueList.isEmpty()) {
+                return null
+            }
+
+            return valueList.last()
         }
 
     }
