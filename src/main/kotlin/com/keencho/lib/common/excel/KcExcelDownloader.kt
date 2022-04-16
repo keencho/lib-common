@@ -28,14 +28,13 @@ class KcExcelDownloader<T> (
     fun write(): Workbook {
         this.validateData(data)
 
-        var sheetNo = 0
-        for (key in this.data.keys) {
+        for ((sheetNo, key) in this.data.keys.withIndex()) {
             val sheet = workbook.createSheet()
 
             // 위에서 이미 not null 체크를 했으므로.
             val value = this.data[key]!!
             val fieldList = KcReflectionUtils.listField(value).stream().filter{ f -> f.getAnnotation(KcExcelDocument::class.java) != null }.collect(Collectors.toList())
-            this.workbook.setSheetName(sheetNo++, key)
+            this.workbook.setSheetName(sheetNo, key)
 
             var rowCount = 0
             var columnCount = 0
